@@ -3,19 +3,11 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
 from messenger import send_to_tg
-import mysql.connector
-from db_details import get_keys
+from db_connection_handler import connect_to_db
 
 class Scraper:
     def __init__(self, dao):
-        db_host, db_user, db_pass, db_name = get_keys()
-
-        self.mydb = mysql.connector.connect(
-            host=db_host,
-            user=db_user,
-            password=db_pass,
-            database=db_name
-        )
+        self.mydb = connect_to_db()
         self.dao = dao
 
     def get_dao_details(self):

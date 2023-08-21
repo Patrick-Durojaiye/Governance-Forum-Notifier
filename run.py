@@ -1,18 +1,7 @@
 from scraper import Scraper
-import mysql.connector
 from multiprocessing import Pool
 import time
-from db_details import get_keys
-
-def connect_to_db():
-    db_host, db_user, db_pass, db_name = get_keys()
-    mydb = mysql.connector.connect(
-        host=db_host,
-        user=db_user,
-        password=db_pass,
-        database=db_name
-    )
-    return mydb
+from db_connection_handler import connect_to_db
 
 def get_daos(mydb):
     mycursor = mydb.cursor()
@@ -39,6 +28,7 @@ def run():
     pool = Pool()
     pool.map(scrape, daos)
     pool.close()
+    mydb.close()
 
 
 if __name__ == '__main__':
